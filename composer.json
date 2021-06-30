@@ -1,0 +1,34 @@
+{
+    "name": "ghostunicorns/module-webapi-logs",
+    "description": "Magento Webapi Log Details accessible via backend",
+    "type": "magento2-module",
+    "require": {
+        "magento/framework": "*",
+        "magento/module-webapi": "*"
+    },
+    "authors": [
+        {
+            "name": "Danilo Argentiero",
+            "email": "argentiero.danilo@gmail.com",
+            "homepage": "https://www.linkedin.com/in/daniloargentiero/",
+            "role": "Software Architect"
+        },
+        {
+            "name": "Riccardo Ugolini",
+            "email": "riccardo.ugolini@gmail.com",
+            "homepage": "https://www.linkedin.com/in/riccardougolini/",
+            "role": "Software Architect"
+        }
+    ],
+    "license": [
+        "MIT"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "GhostUnicorns\\WebapiLogs\\": ""
+        }
+    }
+}

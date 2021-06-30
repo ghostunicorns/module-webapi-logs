@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright © Ghost Unicorns snc. All rights reserved.
+  ~ See LICENSE for license details.
+  -->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- start logger-->
+    <virtualType name="GhostUnicorns\WebapiLogs\Log\Handler" type="Magento\Framework\Logger\Handler\Base">
+        <arguments>
+            <argument name="fileName" xsi:type="string">/var/log/gu_webapi_rest.log</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="GhostUnicorns\WebapiLogs\Log\Logger" type="Monolog\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">GhostUnicorns::reports</argument>
+            <argument name="handlers"  xsi:type="array">
+                <item name="system" xsi:type="object">GhostUnicorns\WebapiLogs\Log\Handler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <type name="GhostUnicorns\WebapiLogs\Model\LogHandle">
+        <arguments>
+            <argument name="logger" xsi:type="object">GhostUnicorns\WebapiLogs\Log\Logger</argument>
+        </arguments>
+    </type>
+    <!-- end logger-->
+
+    <type name="Magento\Webapi\Controller\Rest">
+        <plugin name="FrontControllerDispatchBefore"
+                type="GhostUnicorns\WebapiLogs\Plugin\FrontControllerDispatchBefore"
+                sortOrder="1"/>
+        <plugin name="FrontControllerDispatchAfter"
+                type="GhostUnicorns\WebapiLogs\Plugin\FrontControllerDispatchAfter"
+                sortOrder="9999"/>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="ghostunicorns_webapi_logs_entity_data_source" xsi:type="string">
+                    GhostUnicorns\WebapiLogs\Model\ResourceModel\Logs\Grid\Collection\Virtual
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="GhostUnicorns\WebapiLogs\Model\ResourceModel\Logs\Grid\Collection\Virtual"
+                 type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">webapi_logs</argument>
+            <argument name="resourceModel" xsi:type="string">
+                GhostUnicorns\WebapiLogs\Model\ResourceModel\LogResourceModel
+            </argument>
+        </arguments>
+    </virtualType>
+</config>

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright © Ghost Unicorns snc. All rights reserved.
+  ~ See LICENSE for license details.
+  -->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="GhostUnicorns_WebapiLogs::reports"
+             title="Webapi Logs"
+             translate="title"
+             module="GhostUnicorns_WebapiLogs"
+             sortOrder="5"
+             parent="Magento_Reports::report"
+             resource="GhostUnicorns_WebapiLogs::reports" />
+        <add id="GhostUnicorns_WebapiLogs::reports_activity"
+             title="Show Logs"
+             translate="title"
+             module="GhostUnicorns_WebapiLogs"
+             sortOrder="10"
+             parent="GhostUnicorns_WebapiLogs::reports"
+             action="webapi_logs/reports/index"
+             resource="GhostUnicorns_WebapiLogs::reports_webapilogs" />
+    </menu>
+</config>
+

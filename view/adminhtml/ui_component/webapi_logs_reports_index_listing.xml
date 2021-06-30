@@ -1,0 +1,192 @@
+<!--
+  ~ Copyright © Ghost Unicorns snc. All rights reserved.
+  ~ See LICENSE for license details.
+  -->
+
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="buttons" xsi:type="array">
+            <item name="primary" xsi:type="array">
+                <item name="label" xsi:type="string" translate="true">Delete All Logs</item>
+                <item name="class" xsi:type="string">primary</item>
+                <item name="url" xsi:type="string">webapi_logs/reports/delete</item>
+            </item>
+        </item>
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">
+                webapi_logs_reports_index_listing.ghostunicorns_webapi_logs_entity_data_source
+            </item>
+            <item name="deps" xsi:type="string">
+                webapi_logs_reports_index_listing.ghostunicorns_webapi_logs_entity_data_source
+            </item>
+        </item>
+        <item name="spinner" xsi:type="string">spinner_columns</item>
+    </argument>
+    <dataSource name="ghostunicorns_webapi_logs_entity_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">
+                \GhostUnicorns\WebapiLogs\Ui\DataProvider\LogListingDataProvider
+            </argument>
+            <argument name="name" xsi:type="string">ghostunicorns_webapi_logs_entity_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">log_id</argument>
+            <argument name="requestFieldName" xsi:type="string">log_id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
+                    <item name="update_url" xsi:type="url" path="mui/index/render"/>
+                    <item name="filter_url_params" xsi:type="array">
+                        <item name="log_id" xsi:type="string">*</item>
+                    </item>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="indexField" xsi:type="string">log_id</item>
+                    </item>
+                </item>
+            </argument>
+        </argument>
+    </dataSource>
+    <listingToolbar name="listing_top">
+        <settings>
+            <sticky>true</sticky>
+        </settings>
+        <bookmark name="bookmarks">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/controls/bookmarks/bookmarks</item>
+                    <item name="displayArea" xsi:type="string">dataGridActions</item>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="saveUrl" xsi:type="url" path="mui/bookmark/save"/>
+                        <item name="deleteUrl" xsi:type="url" path="mui/bookmark/delete"/>
+                        <item name="namespace" xsi:type="string">webapi_logs_reports_index_listing</item>
+                    </item>
+                </item>
+            </argument>
+        </bookmark>
+        <columnsControls name="columns_controls"/>
+        <paging name="listing_paging"/>
+        <filterSearch name="fulltext"/>
+        <filters name="listing_filters">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="columnsProvider" xsi:type="string">
+                        webapi_logs_reports_index_listing.webapi_logs_reports_index_listing.spinner_columns
+                    </item>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="provider" xsi:type="string">
+                            webapi_logs_reports_index_listing.webapi_logs_reports_index_listing.listing_top.bookmarks
+                        </item>
+                        <item name="namespace" xsi:type="string">current.filters</item>
+                    </item>
+                    <item name="childDefaults" xsi:type="array">
+                        <item name="provider" xsi:type="string">
+                            webapi_logs_reports_index_listing.webapi_logs_reports_index_listing.listing_top.listing_filters
+                        </item>
+                        <item name="imports" xsi:type="array">
+                            <item name="visible" xsi:type="string">
+                                webapi_logs_reports_index_listing.webapi_logs_reports_index_listing.spinner_columns.${ $.index }:visible
+                            </item>
+                        </item>
+                    </item>
+                </item>
+            </argument>
+        </filters>
+    </listingToolbar>
+    <columns name="spinner_columns">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="resizeConfig" xsi:type="array">
+                    <item name="enabled" xsi:type="boolean">true</item>
+                </item>
+            </item>
+        </argument>
+        <column name="log_id">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="resizeDefaultWidth" xsi:type="string">80</item>
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="sorting" xsi:type="string">desc</item>
+                    <item name="label" xsi:type="string" translate="true">Log ID</item>
+                    <item name="source" xsi:type="string">log_id</item>
+                    <item name="sortOrder" xsi:type="number">10</item>
+                </item>
+            </argument>
+        </column>
+        <column name="response_code">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">GhostUnicorns\WebapiLogs\Model\Config\Source\Code</item>
+                <item name="config" xsi:type="array">
+                    <item name="resizeDefaultWidth" xsi:type="string">50</item>
+                    <item name="filter" xsi:type="string">select</item>
+                    <item name="label" xsi:type="string" translate="true">Response Code</item>
+                    <item name="component" xsi:type="string">GhostUnicorns_WebapiLogs/js/grid/columns/select</item>
+                    <item name="dataType" xsi:type="string">select</item>
+                    <item name="editor" xsi:type="string">select</item>
+                    <item name="source" xsi:type="string">response_code</item>
+                    <item name="sortOrder" xsi:type="number">20</item>
+                </item>
+            </argument>
+        </column>
+        <column name="request_method">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">GhostUnicorns\WebapiLogs\Model\Config\Source\Methods</item>
+                <item name="config" xsi:type="array">
+                    <item name="resizeDefaultWidth" xsi:type="string">50</item>
+                    <item name="filter" xsi:type="string">select</item>
+                    <item name="label" xsi:type="string" translate="true">Request Method</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
+                    <item name="dataType" xsi:type="string">select</item>
+                    <item name="editor" xsi:type="string">select</item>
+                    <item name="source" xsi:type="string">request_method</item>
+                    <item name="sortOrder" xsi:type="number">30</item>
+                </item>
+            </argument>
+        </column>
+        <column name="request_url">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="resizeDefaultWidth" xsi:type="string">200</item>
+                    <item name="label" xsi:type="string" translate="true">Request Url</item>
+                    <item name="source" xsi:type="string">request_url</item>
+                    <item name="sortOrder" xsi:type="number">35</item>
+                </item>
+            </argument>
+        </column>
+        <column name="requestor_ip">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">GhostUnicorns\WebapiLogs\Model\Config\Source\RequestorIp</item>
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">select</item>
+                    <item name="label" xsi:type="string" translate="true">Requestor IP</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
+                    <item name="dataType" xsi:type="string">select</item>
+                    <item name="resizeDefaultWidth" xsi:type="string">100</item>
+                    <item name="editor" xsi:type="string">select</item>
+                    <item name="source" xsi:type="string">requestor_ip</item>
+                    <item name="sortOrder" xsi:type="number">30</item>
+                </item>
+            </argument>
+        </column>
+        <column name="created_at" class="GhostUnicorns\WebapiLogs\Ui\Component\Listing\Column\Datetime" component="Magento_Ui/js/grid/columns/date">
+            <settings>
+                <filter>dateRange</filter>
+                <dataType>date</dataType>
+                <sortable>true</sortable>
+                <timezone>true</timezone>
+                <resizeDefaultWidth>100</resizeDefaultWidth>
+                <label translate="true">Created At</label>
+            </settings>
+        </column>
+
+        <!-- action columns edit and delete -->
+        <actionsColumn name="actions" class="GhostUnicorns\WebapiLogs\Ui\Component\Listing\Column\RowAction">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="resizeDefaultWidth" xsi:type="string">60</item>
+                    <item name="resizeEnabled" xsi:type="boolean">false</item>
+                    <item name="indexField" xsi:type="string">log_id</item>
+                </item>
+            </argument>
+        </actionsColumn>
+    </columns>
+</listing>

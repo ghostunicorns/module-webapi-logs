@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright © Ghost Unicorns snc. All rights reserved.
+  ~ See LICENSE for license details.
+  -->
+
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="webapi_logs" resource="default" engine="innodb" comment="Transporter Activity Table">
+        <column xsi:type="int" name="log_id" padding="10" unsigned="true" nullable="false" identity="true"/>
+        <column xsi:type="varchar" name="requestor_ip" nullable="false"/>
+        <column xsi:type="varchar" name="request_url" nullable="false"/>
+        <column xsi:type="text" name="request_headers" nullable="false"/>
+        <column xsi:type="varchar" name="request_method" nullable="false"/>
+        <column xsi:type="text" name="request_body" nullable="false"/>
+        <column xsi:type="varchar" name="response_code" nullable="false"/>
+        <column xsi:type="text" name="response_body" nullable="false"/>
+        <column xsi:type="timestamp" name="request_datetime" nullable="true" comment="Request datetime"/>
+        <column xsi:type="timestamp" name="response_datetime" nullable="true" comment="Response datetime"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Row Creation Time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="log_id"/>
+        </constraint>
+        <index referenceId="WEBAPILOGS_ENTITY_ID_ENTITY_ID" indexType="btree">
+            <column name="log_id"/>
+        </index>
+    </table>
+</schema>

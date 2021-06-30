@@ -1,0 +1,104 @@
+<?php
+/*
+ * Copyright © Ghost Unicorns snc. All rights reserved.
+ * See LICENSE for license details.
+ */
+
+// @codingStandardsIgnoreFile
+/**
+ * @var $block Template
+ */
+
+/** @var Detail $viewModel */
+
+use GhostUnicorns\WebapiLogs\ViewModel\Detail;
+use Magento\Framework\View\Element\Template;
+
+$viewModel = $block->getViewModel();
+
+$log = $viewModel->getLog();
+?>
+
+<h1>Log id: <?= $log->getData('log_id') ?></h1>
+<br/>
+<h1>Request</h1>
+<p><b>requestor_ip:</b></p>
+<p><?= $log->getData('requestor_ip') ?></p>
+<br/>
+<p><b>request_url:</b></p>
+<p><?= $log->getData('request_url') ?></p>
+<br/>
+<p><b>request_method:</b></p>
+<p><?= $log->getData('request_method') ?></p>
+<br/>
+<p><b>request_body:</b> <button class="js_beauty_json">Prettify JSON</button></p>
+<p><?= $log->getData('request_body') ?></p>
+<br/>
+<p><b>request_headers:</b></p>
+<p><?= $log->getData('request_headers') ?></p>
+<br/>
+<h1>Response</h1>
+<p><b>response_code:</b></p>
+<p><?= $log->getData('response_code') ?></p>
+<br/>
+<p><b>response_body:</b> <button class="js_beauty_json">Prettify JSON</button></p>
+<p><?= $log->getData('response_body') ?></p>
+<br/>
+<p><b>request_datetime:</b></p>
+<p><?= $log->getData('request_datetime') ?></p>
+<br/>
+<p><b>response_datetime:</b></p>
+<p><?= $log->getData('response_datetime') ?></p>
+<br/>
+<p><b>created_at:</b></p>
+<p><?= $log->getData('created_at') ?></p>
+<br/>
+
+<script>
+    require([
+        'jquery',
+        'Websolute_TransporterReports/js/js-beautify/beautify.min'
+    ], function (
+        $,
+        beautify
+    ) {
+        'use strict';
+
+        $('.js_beauty_json').click(function (e) {
+            let $button = $(e.target);
+            let $target = $button.parent().next();
+            let value = $target.text();
+
+            value = beautify.js_beautify(value, {
+                "indent_size": 4,
+                "indent_char": "&nbsp;",
+                "indent_with_tabs": false,
+                "editorconfig": false,
+                "eol": "<br/>",
+                "end_with_newline": false,
+                "indent_level": 0,
+                "preserve_newlines": true,
+                "max_preserve_newlines": 10,
+                "space_in_paren": false,
+                "space_in_empty_paren": false,
+                "jslint_happy": false,
+                "space_after_anon_function": false,
+                "space_after_named_function": false,
+                "brace_style": "collapse",
+                "unindent_chained_methods": false,
+                "break_chained_methods": false,
+                "keep_array_indentation": false,
+                "unescape_strings": false,
+                "wrap_line_length": 0,
+                "e4x": false,
+                "comma_first": false,
+                "operator_position": "before-newline",
+                "indent_empty_lines": false,
+                "templating": ["auto"]
+            });
+
+            $target.html(value);
+            $button.hide();
+        })
+    });
+</script>
