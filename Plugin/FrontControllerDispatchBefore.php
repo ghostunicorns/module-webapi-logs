@@ -61,7 +61,8 @@ class FrontControllerDispatchBefore
             $requestBody = $request->getContent();
             $requestDateTime = $this->date->gmtDate();
 
-            $this->logHandle->before($requestMethod,
+            $this->logHandle->before(
+                $requestMethod,
                 $requestorIp,
                 $requestPath,
                 $requestHeaders,

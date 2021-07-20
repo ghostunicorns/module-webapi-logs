@@ -4,7 +4,8 @@
     "type": "magento2-module",
     "require": {
         "magento/framework": "*",
-        "magento/module-webapi": "*"
+        "magento/module-webapi": "*",
+        "ghostunicorns/module-cron-string-validator": "^1.0"
     },
     "authors": [
         {

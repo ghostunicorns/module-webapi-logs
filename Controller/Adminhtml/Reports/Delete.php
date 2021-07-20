@@ -8,11 +8,13 @@ declare(strict_types=1);
 
 namespace GhostUnicorns\WebapiLogs\Controller\Adminhtml\Reports;
 
+use Exception;
 use GhostUnicorns\WebapiLogs\Model\ResourceModel\Entity\LogCollectionFactory;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Action\HttpGetActionInterface as HttpGetActionInterface;
 use Magento\Framework\View\Result\PageFactory;
+use Psr\Log\LoggerInterface;
 
 class Delete extends Action implements HttpGetActionInterface
 {
@@ -22,9 +24,9 @@ class Delete extends Action implements HttpGetActionInterface
     const ADMIN_RESOURCE = 'GhostUnicorns_WebapiLogs::reports_webapilogs';
 
     /**
-     * @var bool|PageFactory
+     * @var PageFactory
      */
-    protected $resultPageFactory = false;
+    protected $resultPageFactory;
 
     /**
      * @var LogCollectionFactory
@@ -32,18 +34,26 @@ class Delete extends Action implements HttpGetActionInterface
     private $logCollectionFactory;
 
     /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
      * @param Context $context
      * @param PageFactory $resultPageFactory
      * @param LogCollectionFactory $logCollectionFactory
+     * @param LoggerInterface $logger
      */
     public function __construct(
         Context $context,
         PageFactory $resultPageFactory,
-        LogCollectionFactory $logCollectionFactory
+        LogCollectionFactory $logCollectionFactory,
+        LoggerInterface $logger
     ) {
         parent::__construct($context);
         $this->resultPageFactory = $resultPageFactory;
         $this->logCollectionFactory = $logCollectionFactory;
+        $this->logger = $logger;
     }
 
     /**
@@ -56,8 +66,8 @@ class Delete extends Action implements HttpGetActionInterface
             foreach ($logs as $log) {
                 $log->delete();
             }
-        } catch (\Exception $exception) {
-            unset($exception);
+        } catch (Exception $exception) {
+            $this->logger->error(__('Cant delete webapi log because of error: %1', $exception->getMessage()));
         }
 
         $resultRedirect = $this->resultRedirectFactory->create();

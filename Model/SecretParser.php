@@ -8,51 +8,51 @@ declare(strict_types=1);
 
 namespace GhostUnicorns\WebapiLogs\Model;
 
-
 class SecretParser
 {
     /**
-     * @param string $requestBody
-     * @return string
+     * @var Config
      */
-    public function bodyParser(string $requestBody): string
-    {
-        $result = $requestBody;
-        return $result;
-    }
+    private $config;
 
     /**
-     * @param string $requestHeaders
-     * @return string
+     * @param Config $config
      */
-    public function headersParser(string $requestHeaders): string
-    {
-        $result = preg_replace('/Cookie:(.*)/', 'Cookie: ********', $requestHeaders);
-        $result = preg_replace('/User-Agent:(.*)/', 'User-Agent: ********', $result);
-        $result = preg_replace('/Authorization:(.*)/', 'Authorization: ********', $result);
-        return preg_replace('/Host:(.*)/', 'Host: ********', $result);
+    public function __construct(
+        Config $config
+    ) {
+        $this->config = $config;
     }
 
     /**
      * @return string
      */
-    public function ipParser(): string
+    public function parseIp(): string
     {
         return '***.***.***.***';
     }
 
     /**
-     * @param string $requestPath
+     * @param string $header
      * @return string
      */
-    public function pathParser(string $requestPath): string
+    public function parseHeades(string $header): string
     {
-        $segments = parse_url($requestPath);
+        $secrets = $this->config->getSecrets();
+        $headers =  implode('|', $secrets);
+        return preg_replace('/('.$headers.'):(.*)/', '$1: ********', $header);
+    }
 
-        if (array_key_exists('path', $segments)) {
-            return $segments['path'];
+    /**
+     * @param string $body
+     * @return string
+     */
+    public function parseBody(string $body): string
+    {
+        $secrets = $this->config->getSecrets();
+        foreach ($secrets as $secret) {
+            $body = preg_replace('/' . $secret . '(")*:( )*"(.*)"/', $secret . '$1: "********"', $body);
         }
-
-        return $requestPath;
+        return $body;
     }
 }

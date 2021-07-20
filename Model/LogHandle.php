@@ -79,16 +79,14 @@ class LogHandle
         string $requestDateTime
     ) {
         try {
-            $newLog = $this->logFactory->create();
-
             if ($this->config->isSecretMode()) {
-                $requestorIp = $this->secretParser->ipParser();
-                $requestHeaders = $this->secretParser->headersParser($requestHeaders);
-                $requestBody = $this->secretParser->bodyParser($requestBody);
-                $requestPath = $this->secretParser->pathParser($requestPath);
+                $requestorIp = $this->secretParser->parseIp();
+                $requestHeaders = $this->secretParser->parseHeades($requestHeaders);
+                $requestBody = $this->secretParser->parseBody($requestBody);
             }
 
-            $newLog->setData([
+            $log = $this->logFactory->create();
+            $log->setData([
                 'request_method' => $requestMethod,
                 'requestor_ip' => $requestorIp,
                 'request_url' => $requestPath,
@@ -96,11 +94,10 @@ class LogHandle
                 'request_body' => $requestBody,
                 'request_datetime' => $requestDateTime
             ]);
-            $this->logResourceModel->save($newLog);
-            $this->lastLog = $newLog;
+            $this->logResourceModel->save($log);
+            $this->lastLog = $log;
         } catch (Exception $exception) {
             $this->logger->error(__('Cant complete webapi log save because of error: %1', $exception->getMessage()));
-            unset($exception);
         }
     }
 
@@ -119,13 +116,16 @@ class LogHandle
         }
 
         try {
+            if ($this->config->isSecretMode()) {
+                $resposeBody = $this->secretParser->parseBody($resposeBody);
+            }
+
             $this->lastLog->setResponseBody($resposeBody);
             $this->lastLog->setResponseCode($responseCode);
             $this->lastLog->setResponseDatetime($responseDateTime);
             $this->logResourceModel->save($this->lastLog);
         } catch (Exception $exception) {
             $this->logger->error(__('Cant complete webapi log save because of error: %1', $exception->getMessage()));
-            unset($exception);
         }
     }
 }

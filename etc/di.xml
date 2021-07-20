@@ -12,7 +12,6 @@
             <argument name="fileName" xsi:type="string">/var/log/gu_webapi_rest.log</argument>
         </arguments>
     </virtualType>
-
     <virtualType name="GhostUnicorns\WebapiLogs\Log\Logger" type="Monolog\Logger">
         <arguments>
             <argument name="name" xsi:type="string">GhostUnicorns::reports</argument>
@@ -21,8 +20,12 @@
             </argument>
         </arguments>
     </virtualType>
-
     <type name="GhostUnicorns\WebapiLogs\Model\LogHandle">
+        <arguments>
+            <argument name="logger" xsi:type="object">GhostUnicorns\WebapiLogs\Log\Logger</argument>
+        </arguments>
+    </type>
+    <type name="GhostUnicorns\WebapiLogs\Controller\Adminhtml\Reports\Delete">
         <arguments>
             <argument name="logger" xsi:type="object">GhostUnicorns\WebapiLogs\Log\Logger</argument>
         </arguments>
@@ -37,6 +40,7 @@
                 type="GhostUnicorns\WebapiLogs\Plugin\FrontControllerDispatchAfter"
                 sortOrder="9999"/>
     </type>
+
     <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
         <arguments>
             <argument name="collections" xsi:type="array">
@@ -46,6 +50,7 @@
             </argument>
         </arguments>
     </type>
+
     <virtualType name="GhostUnicorns\WebapiLogs\Model\ResourceModel\Logs\Grid\Collection\Virtual"
                  type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
         <arguments>

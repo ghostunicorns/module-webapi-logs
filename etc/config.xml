@@ -11,6 +11,14 @@
             <log>
                 <enabled>1</enabled>
                 <secret_mode>1</secret_mode>
+                <secret_words>Cookie
+User-Agent
+Authorization
+username
+password
+token
+email</secret_words>
+                <cleaner_cron_expression>0 0 * * *</cleaner_cron_expression>
             </log>
         </webapi_logs>
     </default>

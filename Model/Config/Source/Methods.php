@@ -14,6 +14,9 @@ use Magento\Framework\Data\OptionSourceInterface;
 
 class Methods implements OptionSourceInterface
 {
+    /**
+     * @var LogCollectionFactory
+     */
     private $logCollectionFactory;
 
     /**
@@ -25,6 +28,9 @@ class Methods implements OptionSourceInterface
         $this->logCollectionFactory = $logCollectionFactory;
     }
 
+    /**
+     * @return array
+     */
     public function toOptionArray(): array
     {
         $result = [];

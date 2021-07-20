@@ -17,10 +17,21 @@ class Config
      * string
      */
     protected const WEBAPI_LOGS_IS_ENABLED_CONFIG_PATH = 'webapi_logs/log/enabled';
+
     /**
      * string
      */
     protected const WEBAPI_LOGS_LOG_SECRET_MODE = 'webapi_logs/log/secret_mode';
+
+    /**
+     * string
+     */
+    protected const WEBAPI_LOGS_LOG_SECRET_WORDS = 'webapi_logs/log/secret_words';
+
+    /**
+     * string
+     */
+    protected const WEBAPI_LOGS_LOG_CLEANER_CRON_EXPRESSION = 'webapi_logs/log/cleaner_cron_expression';
 
     /**
      * @var ScopeConfigInterface
@@ -54,6 +65,29 @@ class Config
     {
         return $this->scopeConfig->isSetFlag(
             self::WEBAPI_LOGS_LOG_SECRET_MODE,
+            ScopeInterface::SCOPE_WEBSITE
+        );
+    }
+
+    /**
+     * @return array
+     */
+    public function getSecrets(): array
+    {
+        $secrets = $this->scopeConfig->getValue(
+            self::WEBAPI_LOGS_LOG_SECRET_WORDS,
+            ScopeInterface::SCOPE_WEBSITE
+        );
+        return explode(PHP_EOL, $secrets);
+    }
+
+    /**
+     * @return string
+     */
+    public function getCleanerCronExpression(): string
+    {
+        return $this->scopeConfig->getValue(
+            self::WEBAPI_LOGS_LOG_CLEANER_CRON_EXPRESSION,
             ScopeInterface::SCOPE_WEBSITE
         );
     }
