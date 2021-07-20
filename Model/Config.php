@@ -78,7 +78,7 @@ class Config
             self::WEBAPI_LOGS_LOG_SECRET_WORDS,
             ScopeInterface::SCOPE_WEBSITE
         );
-        return explode(PHP_EOL, $secrets);
+        return preg_split('/\n|\r\n?/', $secrets);
     }
 
     /**

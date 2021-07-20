@@ -26,9 +26,7 @@ You can select an entry to see more details about the request and the response
 
 # Attention!
 
-Enable this module only for debug reason, please don't let it enabled in production environment because it can slow down all your webapi request and overload your database.
-
-This module logs everything passes in the webapi calls (tokens and passwords too!), remember to clean logs by clicking the `Delete All Logs` button:
+If you disable the Secret Mode Enable this module logs everything passes in the webapi calls (tokens and passwords too!), then remember to clean logs by clicking the `Delete All Logs` button:
 
 <img src="https://github.com/ghostunicorns/module-webapi-logs/blob/main/screenshots/screen4.png" />
 

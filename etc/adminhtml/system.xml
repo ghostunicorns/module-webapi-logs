@@ -37,6 +37,7 @@
                     <depends>
                         <field id="webapi_logs/log/enabled">1</field>
                     </depends>
+                    <validate>validate-number validate-greater-than-zero</validate>
                 </field>
             </group>
         </section>
