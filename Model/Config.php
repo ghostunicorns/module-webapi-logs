@@ -17,6 +17,10 @@ class Config
      * string
      */
     protected const WEBAPI_LOGS_IS_ENABLED_CONFIG_PATH = 'webapi_logs/log/enabled';
+    /**
+     * string
+     */
+    protected const WEBAPI_LOGS_LOG_SECRET_MODE = 'webapi_logs/log/secret_mode';
 
     /**
      * @var ScopeConfigInterface
@@ -39,6 +43,17 @@ class Config
     {
         return $this->scopeConfig->isSetFlag(
             self::WEBAPI_LOGS_IS_ENABLED_CONFIG_PATH,
+            ScopeInterface::SCOPE_WEBSITE
+        );
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSecretMode(): bool
+    {
+        return $this->scopeConfig->isSetFlag(
+            self::WEBAPI_LOGS_LOG_SECRET_MODE,
             ScopeInterface::SCOPE_WEBSITE
         );
     }

@@ -10,6 +10,7 @@
         <webapi_logs>
             <log>
                 <enabled>1</enabled>
+                <secret_mode>1</secret_mode>
             </log>
         </webapi_logs>
     </default>

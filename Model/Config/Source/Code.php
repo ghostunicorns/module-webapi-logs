@@ -14,7 +14,7 @@ use Magento\Framework\Data\OptionSourceInterface;
 
 class Code implements OptionSourceInterface
 {
-    private LogCollectionFactory $logCollectionFactory;
+    private $logCollectionFactory;
 
     /**
      * @param LogCollectionFactory $logCollectionFactory

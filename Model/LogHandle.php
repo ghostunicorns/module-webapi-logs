@@ -32,18 +32,34 @@ class LogHandle
     private $logger;
 
     /**
+     * @var Config
+     */
+    private $config;
+
+    /**
+     * @var SecretParser
+     */
+    private $secretParser;
+
+    /**
      * @param LogFactory $logFactory
      * @param LogResourceModel $logResourceModel
+     * @param SecretParser $secretParser
+     * @param Config $config
      * @param LoggerInterface $logger
      */
     public function __construct(
         LogFactory $logFactory,
         LogResourceModel $logResourceModel,
+        SecretParser $secretParser,
+        Config $config,
         LoggerInterface $logger
     ) {
         $this->logFactory = $logFactory;
         $this->logResourceModel = $logResourceModel;
+        $this->config = $config;
         $this->logger = $logger;
+        $this->secretParser = $secretParser;
     }
 
     /**
@@ -64,6 +80,14 @@ class LogHandle
     ) {
         try {
             $newLog = $this->logFactory->create();
+
+            if ($this->config->isSecretMode()) {
+                $requestorIp = $this->secretParser->ipParser();
+                $requestHeaders = $this->secretParser->headersParser($requestHeaders);
+                $requestBody = $this->secretParser->bodyParser($requestBody);
+                $requestPath = $this->secretParser->pathParser($requestPath);
+            }
+
             $newLog->setData([
                 'request_method' => $requestMethod,
                 'requestor_ip' => $requestorIp,
