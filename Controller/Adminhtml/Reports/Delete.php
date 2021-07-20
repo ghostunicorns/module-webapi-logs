@@ -9,12 +9,12 @@ declare(strict_types=1);
 namespace GhostUnicorns\WebapiLogs\Controller\Adminhtml\Reports;
 
 use Exception;
+use GhostUnicorns\WebapiLogs\Model\Log\Logger;
 use GhostUnicorns\WebapiLogs\Model\ResourceModel\Entity\LogCollectionFactory;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Action\HttpGetActionInterface as HttpGetActionInterface;
 use Magento\Framework\View\Result\PageFactory;
-use Psr\Log\LoggerInterface;
 
 class Delete extends Action implements HttpGetActionInterface
 {
@@ -34,7 +34,7 @@ class Delete extends Action implements HttpGetActionInterface
     private $logCollectionFactory;
 
     /**
-     * @var LoggerInterface
+     * @var Logger
      */
     private $logger;
 
@@ -42,13 +42,13 @@ class Delete extends Action implements HttpGetActionInterface
      * @param Context $context
      * @param PageFactory $resultPageFactory
      * @param LogCollectionFactory $logCollectionFactory
-     * @param LoggerInterface $logger
+     * @param Logger $logger
      */
     public function __construct(
         Context $context,
         PageFactory $resultPageFactory,
         LogCollectionFactory $logCollectionFactory,
-        LoggerInterface $logger
+        Logger $logger
     ) {
         parent::__construct($context);
         $this->resultPageFactory = $resultPageFactory;

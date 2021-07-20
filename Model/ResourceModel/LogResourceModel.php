@@ -12,6 +12,9 @@ use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 
 class LogResourceModel extends AbstractDb
 {
+    /** @var string */
+    const CREATED_AT = 'created_at';
+
     protected function _construct()
     {
         $this->_init('webapi_logs', 'log_id');

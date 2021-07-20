@@ -9,8 +9,8 @@ declare(strict_types=1);
 namespace GhostUnicorns\WebapiLogs\Model;
 
 use Exception;
+use GhostUnicorns\WebapiLogs\Model\Log\Logger;
 use GhostUnicorns\WebapiLogs\Model\ResourceModel\LogResourceModel;
-use Psr\Log\LoggerInterface;
 
 class LogHandle
 {
@@ -27,7 +27,7 @@ class LogHandle
     private $logResourceModel;
 
     /**
-     * @var LoggerInterface
+     * @var Logger
      */
     private $logger;
 
@@ -46,14 +46,14 @@ class LogHandle
      * @param LogResourceModel $logResourceModel
      * @param SecretParser $secretParser
      * @param Config $config
-     * @param LoggerInterface $logger
+     * @param Logger $logger
      */
     public function __construct(
         LogFactory $logFactory,
         LogResourceModel $logResourceModel,
         SecretParser $secretParser,
         Config $config,
-        LoggerInterface $logger
+        Logger $logger
     ) {
         $this->logFactory = $logFactory;
         $this->logResourceModel = $logResourceModel;

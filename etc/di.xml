@@ -6,32 +6,37 @@
 
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <!-- start logger-->
-    <virtualType name="GhostUnicorns\WebapiLogs\Log\Handler" type="Magento\Framework\Logger\Handler\Base">
+    <!-- Log start -->
+    <type name="GhostUnicorns\WebapiLogs\Model\Log\Logger">
         <arguments>
-            <argument name="fileName" xsi:type="string">/var/log/gu_webapi_rest.log</argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="GhostUnicorns\WebapiLogs\Log\Logger" type="Monolog\Logger">
-        <arguments>
-            <argument name="name" xsi:type="string">GhostUnicorns::reports</argument>
-            <argument name="handlers"  xsi:type="array">
-                <item name="system" xsi:type="object">GhostUnicorns\WebapiLogs\Log\Handler</item>
+            <argument name="name" xsi:type="string">GhostUnicorns::WebapiLogs</argument>
+            <argument name="handlers" xsi:type="array">
+                <item name="system" xsi:type="object">
+                    GhostUnicorns\WebapiLogs\Log\Handler
+                </item>
             </argument>
         </arguments>
+    </type>
+    <virtualType name="GhostUnicorns\WebapiLogs\Log\Handler" type="Magento\Framework\Logger\Handler\Base">
+        <arguments>
+            <argument name="fileName" xsi:type="string">/var/log/webapi_logs.log</argument>
+        </arguments>
     </virtualType>
-    <type name="GhostUnicorns\WebapiLogs\Model\LogHandle">
-        <arguments>
-            <argument name="logger" xsi:type="object">GhostUnicorns\WebapiLogs\Log\Logger</argument>
-        </arguments>
-    </type>
-    <type name="GhostUnicorns\WebapiLogs\Controller\Adminhtml\Reports\Delete">
-        <arguments>
-            <argument name="logger" xsi:type="object">GhostUnicorns\WebapiLogs\Log\Logger</argument>
-        </arguments>
-    </type>
-    <!-- end logger-->
+    <!-- Log end -->
 
+    <!-- Command start -->
+    <type name="Magento\Framework\Console\CommandListInterface">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="webapilogs_clean" xsi:type="object">
+                    GhostUnicorns\WebapiLogs\Console\Command\CleanCommand
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <!-- Command end -->
+
+    <!-- Plugin start -->
     <type name="Magento\Webapi\Controller\Rest">
         <plugin name="FrontControllerDispatchBefore"
                 type="GhostUnicorns\WebapiLogs\Plugin\FrontControllerDispatchBefore"
@@ -40,6 +45,7 @@
                 type="GhostUnicorns\WebapiLogs\Plugin\FrontControllerDispatchAfter"
                 sortOrder="9999"/>
     </type>
+    <!-- Plugin end -->
 
     <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
         <arguments>

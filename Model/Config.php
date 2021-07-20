@@ -31,7 +31,7 @@ class Config
     /**
      * string
      */
-    protected const WEBAPI_LOGS_LOG_CLEANER_CRON_EXPRESSION = 'webapi_logs/log/cleaner_cron_expression';
+    protected const WEBAPI_LOGS_LOG_CLEAN_OLDER_THAN_HOURS = 'webapi_logs/log/clean_older_than_hours';
 
     /**
      * @var ScopeConfigInterface
@@ -82,12 +82,12 @@ class Config
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getCleanerCronExpression(): string
+    public function getCleanOlderThanHours(): int
     {
-        return $this->scopeConfig->getValue(
-            self::WEBAPI_LOGS_LOG_CLEANER_CRON_EXPRESSION,
+        return (int)$this->scopeConfig->getValue(
+            self::WEBAPI_LOGS_LOG_CLEAN_OLDER_THAN_HOURS,
             ScopeInterface::SCOPE_WEBSITE
         );
     }
