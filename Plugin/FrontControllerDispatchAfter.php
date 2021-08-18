@@ -55,11 +55,24 @@ class FrontControllerDispatchAfter
     public function afterDispatch(Rest $subject, $result, RequestInterface $request)
     {
         if ($this->config->isEnabled()) {
-            $responseCode = (string)$result->getStatusCode();
-            $resposeBody = $result->getContent();
-            $resposeBody = trim($resposeBody, '"');
-            $responseDateTime = $this->date->gmtDate();
+            $exceptions = $result->getException();
 
+            if (!empty($exceptions)) {
+                $responseCode = '';
+                $resposeBody = '';
+                foreach ($exceptions as $exception) {
+                    $responseCode .= (string)$exception->getHttpCode() . ' ';
+                    $resposeBody .= $exception->getMessage() . ' ';
+                }
+                $responseCode = rtrim($responseCode);
+                $resposeBody = rtrim($resposeBody);
+            } else {
+                $responseCode = (string)$result->getStatusCode();
+                $resposeBody = $result->getContent();
+                $resposeBody = trim($resposeBody, '"');
+            }
+
+            $responseDateTime = $this->date->gmtDate();
             $this->logHandle->after($responseCode, $resposeBody, $responseDateTime);
         }
         return $result;
