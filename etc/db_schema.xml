@@ -9,7 +9,7 @@
     <table name="webapi_logs" resource="default" engine="innodb" comment="Transporter Activity Table">
         <column xsi:type="int" name="log_id" padding="10" unsigned="true" nullable="false" identity="true"/>
         <column xsi:type="varchar" name="requestor_ip" nullable="false"/>
-        <column xsi:type="varchar" name="request_url" nullable="false"/>
+        <column xsi:type="text" name="request_url" nullable="false"/>
         <column xsi:type="text" name="request_headers" nullable="false"/>
         <column xsi:type="varchar" name="request_method" nullable="false"/>
         <column xsi:type="text" name="request_body" nullable="false"/>
