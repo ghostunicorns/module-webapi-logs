@@ -66,16 +66,24 @@ class Clean
         $this->logger->info(__('Start webapi logs clean'));
         $hours = $this->config->getCleanOlderThanHours();
         $datetime = new DateTime('-' . $hours . ' hour');
+        $page = 1;
 
         $collection = $this->logCollectionFactory->create();
-        $rows = $collection->addFieldToFilter(LogResourceModel::CREATED_AT, ['lt' => $datetime])
-            ->getItems();
+        $collection = $collection->addFieldToSelect(LogResourceModel::LOG_ID)
+                                 ->addFieldToFilter(LogResourceModel::CREATED_AT, ['lt' => $datetime])
+                                 ->setPageSize(2);
 
-        $tot = $collection->count();
-
-        /** @var LogResourceModel $row */
-        foreach ($rows as $row) {
-            $this->logResourceModel->delete($row);
+        $pageCount = $collection->getLastPageNumber();
+        $currentPage = 1;
+        $tot = 0;
+        while ($currentPage <= $pageCount) {
+            $collection->setCurPage($currentPage);
+            foreach ($collection as $row) {
+                $this->logResourceModel->delete($row);
+                $tot++;
+            }
+            $collection->clear();
+            $currentPage++;
         }
 
         $this->logger->info(__('End webapi logs clean. Deleted %1 elements.', $tot));

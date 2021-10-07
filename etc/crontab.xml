@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
-    <group id="general">
+    <group id="default">
         <job name="webapilogs_clean" instance="GhostUnicorns\WebapiLogs\Cron\CleanCron" method="execute">
             <schedule>0 * * * *</schedule>
         </job>

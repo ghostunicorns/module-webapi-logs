@@ -15,6 +15,9 @@ class LogResourceModel extends AbstractDb
     /** @var string */
     const CREATED_AT = 'created_at';
 
+    /** @var string */
+    const LOG_ID = 'log_id';
+
     protected function _construct()
     {
         $this->_init('webapi_logs', 'log_id');
