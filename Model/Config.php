@@ -34,6 +34,11 @@ class Config
     protected const WEBAPI_LOGS_LOG_CLEAN_OLDER_THAN_HOURS = 'webapi_logs/log/clean_older_than_hours';
 
     /**
+     * @var string
+     */
+    protected const WEBAPI_LOGS_LOG_FILTER_REQUEST_PATHS = 'webapi_logs/log/filter_request_paths';
+
+    /**
      * @var ScopeConfigInterface
      */
     private $scopeConfig;
@@ -90,5 +95,20 @@ class Config
             self::WEBAPI_LOGS_LOG_CLEAN_OLDER_THAN_HOURS,
             ScopeInterface::SCOPE_WEBSITE
         );
+    }
+
+    /**
+     * @return array
+     */
+    public function getFilterRequestPaths(): array
+    {
+        $value = $this->scopeConfig->getValue(
+            self::WEBAPI_LOGS_LOG_FILTER_REQUEST_PATHS,
+            ScopeInterface::SCOPE_WEBSITE
+        );
+        if ($value == null) {
+            return [];
+        }
+        return preg_split('/\n|\r\n?/', $value);
     }
 }

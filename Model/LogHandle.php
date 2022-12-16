@@ -85,17 +85,22 @@ class LogHandle
                 $requestBody = $this->secretParser->parseBody($requestBody);
             }
 
-            $log = $this->logFactory->create();
-            $log->setData([
-                'request_method' => $requestMethod,
-                'requestor_ip' => $requestorIp,
-                'request_url' => $requestPath,
-                'request_headers' => $requestHeaders,
-                'request_body' => $requestBody,
-                'request_datetime' => $requestDateTime
-            ]);
-            $this->logResourceModel->save($log);
-            $this->lastLog = $log;
+            $filter = $this->config->getFilterRequestPaths();
+
+            // Only log this request if the path is not filtered.
+            if (!$this->filterRequestPath($requestPath, $filter)) {
+                $log = $this->logFactory->create();
+                $log->setData([
+                    'request_method' => $requestMethod,
+                    'requestor_ip' => $requestorIp,
+                    'request_url' => $requestPath,
+                    'request_headers' => $requestHeaders,
+                    'request_body' => $requestBody,
+                    'request_datetime' => $requestDateTime
+                ]);
+                $this->logResourceModel->save($log);
+                $this->lastLog = $log;
+            }
         } catch (Exception $exception) {
             $this->logger->error(__('Cant complete webapi log save because of error: %1', $exception->getMessage()));
         }
@@ -127,5 +132,27 @@ class LogHandle
         } catch (Exception $exception) {
             $this->logger->error(__('Cant complete webapi log save because of error: %1', $exception->getMessage()));
         }
+    }
+
+    /**
+     * Check if request path is among the filters.
+     *
+     * @param string $requestPath
+     * @param array  $filters
+     *
+     * @return bool
+     */
+    private function filterRequestPath(
+        string $requestPath,
+        array $filters
+    ): bool {
+        foreach ($filters as $filter) {
+            if ($filter != '') {
+                if (stripos($requestPath, $filter) !== false) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
