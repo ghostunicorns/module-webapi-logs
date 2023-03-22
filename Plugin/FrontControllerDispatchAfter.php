@@ -54,7 +54,12 @@ class FrontControllerDispatchAfter
      */
     public function afterDispatch(Rest $subject, $result, RequestInterface $request)
     {
-        if ($this->config->isEnabled()) {
+        if ($this->config->isEnabled()
+            && (
+                !$request->isXmlHttpRequest()
+                || !$this->config->isAjaxCallsDisabled()
+            )
+        ) {
             $exceptions = $result->getException();
 
             if (!empty($exceptions)) {
