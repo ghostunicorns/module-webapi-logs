@@ -18,6 +18,8 @@ class Config
      */
     protected const WEBAPI_LOGS_IS_ENABLED_CONFIG_PATH = 'webapi_logs/log/enabled';
 
+
+    protected const WEBAPI_LOGS_DISABLED_AJAX_CALLS = 'webapi_logs/log/disable_ajax_calls';
     /**
      * string
      */
@@ -57,6 +59,15 @@ class Config
             ScopeInterface::SCOPE_WEBSITE
         );
     }
+
+    public function isAjaxCallsDisabled(): bool
+    {
+        return $this->scopeConfig->isSetFlag(
+            self::WEBAPI_LOGS_DISABLED_AJAX_CALLS,
+            ScopeInterface::SCOPE_WEBSITE
+        );
+    }
+
 
     /**
      * @return bool
