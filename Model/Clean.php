@@ -71,7 +71,7 @@ class Clean
         $collection = $this->logCollectionFactory->create();
         $collection = $collection->addFieldToSelect(LogResourceModel::LOG_ID)
                                  ->addFieldToFilter(LogResourceModel::CREATED_AT, ['lt' => $datetime])
-                                 ->setPageSize(2);
+                                 ->setPageSize(1000);
 
         $pageCount = $collection->getLastPageNumber();
         $currentPage = 1;
