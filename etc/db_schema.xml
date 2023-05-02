@@ -24,5 +24,8 @@
         <index referenceId="WEBAPILOGS_ENTITY_ID_ENTITY_ID" indexType="btree">
             <column name="log_id"/>
         </index>
+        <index referenceId="WEBAPILOGS_CREATED_AT_CREATED_AT" indexType="btree">
+            <column name="created_at"/>
+        </index>
     </table>
 </schema>

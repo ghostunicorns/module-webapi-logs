@@ -4,7 +4,7 @@ This module allows you to analyze all the webapi rest done call toward your mage
 
 # Install
 
-`composer require ghostunicorns/module-webapi-logs`
+`composer require youwe/module-webapi-logs`
 
 # Configure
 
