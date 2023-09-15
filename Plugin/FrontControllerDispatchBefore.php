@@ -53,7 +53,7 @@ class FrontControllerDispatchBefore
      */
     public function beforeDispatch(Rest $subject, RequestInterface $request)
     {
-        if ($this->config->isEnabled()) {
+        if ($this->config->isEnabled() && !$request->isXmlHttpRequest()) {
             $requestMethod = $request->getMethod();
             $requestorIp = $request->getClientIp();
             $requestPath = $request->getUriString();
