@@ -11,6 +11,19 @@ This module allows you to analyze all the webapi rest done call toward your mage
 
 # Install
 
+*composer.json*
+
+```json
+{
+  "repositories": {
+    "ghostunicorns/module-webapi-logs": {
+      "type": "vcs",
+      "url": "https://github.com/magentix/module-webapi-logs.git"
+    }
+  }
+}
+```
+
 `composer require ghostunicorns/module-webapi-logs`
 
 # Configure
