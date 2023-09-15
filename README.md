@@ -2,6 +2,13 @@
 
 This module allows you to analyze all the webapi rest done call toward your magento. 
 
+# Fork
+
+**This forked version only logs external requests in error.**
+
+- [[a59ed06](https://github.com/magentix/module-webapi-logs/commit/a59ed068c3709c185a6437fcc22deb114e967d08#diff-ae26970ecab7df39eaa665075d03301cf7956854b75cebfb30caaac85570df37)] Do not log API Ajax requests (from Magento frontend, like cart and checkout)
+- [[a59ed06](https://github.com/magentix/module-webapi-logs/commit/a59ed068c3709c185a6437fcc22deb114e967d08#diff-615f9126e7b3d9fc5c7cbe97fd8e8c8ba225ca5824fc34ef5c90e5a7645dc8a1)] Do not keep requests in status 200 success
+
 # Install
 
 `composer require ghostunicorns/module-webapi-logs`
