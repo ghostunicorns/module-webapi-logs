@@ -31,8 +31,13 @@ $log = $viewModel->getLog();
 <p><b>request_method:</b></p>
 <p><?= $log->getData('request_method') ?></p>
 <br/>
-<p><b>request_body:</b> <button class="js_beauty_json">Prettify JSON</button></p>
-<p><?= $log->getData('request_body') ?></p>
+<?php if (preg_match('/^<\?xml/', $log->getData('request_body'))): ?>
+    <p><b>request_body:</b></p>
+    <pre style="border:1px solid #CCC;height:300px;overflow-y:auto;padding:10px;font-size:12px"><?= htmlentities($log->getData('request_body')) ?></pre>
+<?php else: ?>
+    <p><b>request_body:</b> <button class="js_beauty_json">Prettify JSON</button></p>
+    <p><?= $log->getData('request_body') ?></p>
+<?php endif; ?>
 <br/>
 <p><b>request_headers:</b></p>
 <p><?= $log->getData('request_headers') ?></p>
@@ -41,8 +46,13 @@ $log = $viewModel->getLog();
 <p><b>response_code:</b></p>
 <p><?= $log->getData('response_code') ?></p>
 <br/>
-<p><b>response_body:</b> <button class="js_beauty_json">Prettify JSON</button></p>
-<p><?= $log->getData('response_body') ?></p>
+<?php if (preg_match('/^<\?xml/', $log->getData('response_body'))): ?>
+    <p><b>response_body:</b></p>
+    <pre style="border:1px solid #CCC;height:300px;overflow-y:auto;padding:10px;font-size:12px"><?= $log->getData('response_body') ?></pre>
+<?php else: ?>
+    <p><b>response_body:</b> <button class="js_beauty_json">Prettify JSON</button></p>
+    <p><?= $log->getData('response_body') ?></p>
+<?php endif; ?>
 <br/>
 <p><b>request_datetime:</b></p>
 <p><?= $log->getData('request_datetime') ?></p>
