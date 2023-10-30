@@ -10,7 +10,7 @@ namespace GhostUnicorns\WebapiLogs\Controller\Adminhtml\Reports;
 
 use Exception;
 use GhostUnicorns\WebapiLogs\Model\Log\Logger;
-use GhostUnicorns\WebapiLogs\Model\ResourceModel\Entity\LogCollectionFactory;
+use GhostUnicorns\WebapiLogs\Model\Clean;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Action\HttpGetActionInterface as HttpGetActionInterface;
@@ -29,9 +29,9 @@ class Delete extends Action implements HttpGetActionInterface
     protected $resultPageFactory;
 
     /**
-     * @var LogCollectionFactory
+     * @var Clean
      */
-    private $logCollectionFactory;
+    private $clean;
 
     /**
      * @var Logger
@@ -47,12 +47,12 @@ class Delete extends Action implements HttpGetActionInterface
     public function __construct(
         Context $context,
         PageFactory $resultPageFactory,
-        LogCollectionFactory $logCollectionFactory,
+        Clean $clean,
         Logger $logger
     ) {
         parent::__construct($context);
         $this->resultPageFactory = $resultPageFactory;
-        $this->logCollectionFactory = $logCollectionFactory;
+        $this->clean = $clean;
         $this->logger = $logger;
     }
 
@@ -62,10 +62,7 @@ class Delete extends Action implements HttpGetActionInterface
     public function execute()
     {
         try {
-            $logs = $this->logCollectionFactory->create();
-            foreach ($logs as $log) {
-                $log->delete();
-            }
+            $this->clean->cleanAll();
         } catch (Exception $exception) {
             $this->logger->error(__('Cant delete webapi log because of error: %1', $exception->getMessage()));
         }
