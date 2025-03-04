@@ -44,6 +44,13 @@
                     </depends>
                     <validate>validate-number validate-greater-than-zero</validate>
                 </field>
+                <field id="filter_request_paths" translate="label" type="textarea" sortOrder="50" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Filter request paths</label>
+                    <depends>
+                        <field id="webapi_logs/log/enabled">1</field>
+                    </depends>
+                    <comment><![CDATA[A list of request paths that should not be logged, separated by a simple new line]]></comment>
+                </field>
             </group>
         </section>
     </system>

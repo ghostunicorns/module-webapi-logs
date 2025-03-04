@@ -1,5 +1,5 @@
 {
-    "name": "ghostunicorns/module-webapi-logs",
+    "name": "youwe/module-webapi-logs",
     "description": "Magento Webapi Log Details accessible via backend",
     "type": "magento2-module",
     "require": {
