@@ -10,7 +10,7 @@ namespace GhostUnicorns\WebapiLogs\Model;
 
 use DateTime;
 use Exception;
-use GhostUnicorns\WebapiLogs\Model\Log\Logger;
+use Psr\Log\LoggerInterface as Logger;
 use GhostUnicorns\WebapiLogs\Model\ResourceModel\Entity\LogCollectionFactory;
 use GhostUnicorns\WebapiLogs\Model\ResourceModel\LogResourceModel;
 

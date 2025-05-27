@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace GhostUnicorns\WebapiLogs\Controller\Adminhtml\Reports;
 
 use Exception;
-use GhostUnicorns\WebapiLogs\Model\Log\Logger;
+use Psr\Log\LoggerInterface as Logger;
 use GhostUnicorns\WebapiLogs\Model\ResourceModel\Entity\LogCollectionFactory;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
