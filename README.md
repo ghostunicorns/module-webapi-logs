@@ -2,6 +2,11 @@
 
 This module allows you to analyze all the webapi rest done call toward your magento. 
 
+# Fork
+
+- Display error message in grid
+- Better log display when request is XML
+
 # Install
 
 `composer require youwe/module-webapi-logs`
