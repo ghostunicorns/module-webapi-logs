@@ -6,16 +6,13 @@
 
 namespace GhostUnicorns\WebapiLogs\Ui\Component\Listing\Column;
 
-use IntlDateFormatter;
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Locale\Bundle\DataBundle;
 use Magento\Framework\Locale\ResolverInterface;
-use Magento\Framework\Stdlib\BooleanUtils;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Framework\View\Element\UiComponent\ContextInterface;
 use Magento\Framework\View\Element\UiComponentFactory;
 use Magento\Ui\Component\Listing\Columns\Column;
-use ResourceBundle;
 
 /**
  * Date format column
@@ -29,11 +26,6 @@ class Datetime extends Column
      * @var TimezoneInterface
      */
     protected $timezone;
-
-    /**
-     * @var BooleanUtils
-     */
-    private $booleanUtils;
 
     /**
      * @var ResolverInterface
@@ -54,24 +46,21 @@ class Datetime extends Column
      * @param ContextInterface $context
      * @param UiComponentFactory $uiComponentFactory
      * @param TimezoneInterface $timezone
-     * @param BooleanUtils $booleanUtils
      * @param array $components
      * @param array $data
      * @param ResolverInterface|null $localeResolver
      * @param DataBundle|null $dataBundle
      */
     public function __construct(
-        ContextInterface $context,
+        ContextInterface   $context,
         UiComponentFactory $uiComponentFactory,
-        TimezoneInterface $timezone,
-        BooleanUtils $booleanUtils,
-        array $components = [],
-        array $data = [],
-        ResolverInterface $localeResolver = null,
-        DataBundle $dataBundle = null
+        TimezoneInterface  $timezone,
+        array              $components = [],
+        array              $data = [],
+        ?ResolverInterface $localeResolver = null,
+        ?DataBundle $dataBundle = null
     ) {
         $this->timezone = $timezone;
-        $this->booleanUtils = $booleanUtils;
         $this->localeResolver = $localeResolver ?? ObjectManager::getInstance()->get(ResolverInterface::class);
         $this->locale = $this->localeResolver->getLocale();
         $this->dataBundle = $dataBundle ?? ObjectManager::getInstance()->get(DataBundle::class);
@@ -101,7 +90,6 @@ class Datetime extends Column
         }
 
         $localeData = $this->dataBundle->get($this->locale);
-        /** @var ResourceBundle $monthsData */
         $monthsData = $localeData['calendar']['gregorian']['monthNames'];
         $months = array_values(iterator_to_array($monthsData['format']['wide']));
         $monthsShort = array_values(
