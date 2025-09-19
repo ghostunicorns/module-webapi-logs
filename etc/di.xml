@@ -7,7 +7,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <!-- Log start -->
-    <type name="GhostUnicorns\WebapiLogs\Model\Log\Logger">
+    <virtualType name="GhostUnicorns\WebapiLogs\Model\Log\Logger" type="Magento\Framework\Logger\Monolog">
         <arguments>
             <argument name="name" xsi:type="string">GhostUnicorns::WebapiLogs</argument>
             <argument name="handlers" xsi:type="array">
@@ -16,12 +16,27 @@
                 </item>
             </argument>
         </arguments>
-    </type>
+    </virtualType>
     <virtualType name="GhostUnicorns\WebapiLogs\Log\Handler" type="Magento\Framework\Logger\Handler\Base">
         <arguments>
             <argument name="fileName" xsi:type="string">/var/log/webapi_logs.log</argument>
         </arguments>
     </virtualType>
+    <type name="GhostUnicorns\WebapiLogs\Model\LogHandle">
+        <arguments>
+            <argument name="logger" xsi:type="object">GhostUnicorns\WebapiLogs\Model\Log\Logger</argument>
+        </arguments>
+    </type>
+    <type name="GhostUnicorns\WebapiLogs\Model\Clean">
+        <arguments>
+            <argument name="logger" xsi:type="object">GhostUnicorns\WebapiLogs\Model\Log\Logger</argument>
+        </arguments>
+    </type>
+    <type name="GhostUnicorns\WebapiLogs\Controller\Adminhtml\Reports\Delete">
+        <arguments>
+            <argument name="logger" xsi:type="object">GhostUnicorns\WebapiLogs\Model\Log\Logger</argument>
+        </arguments>
+    </type>
     <!-- Log end -->
 
     <!-- Command start -->

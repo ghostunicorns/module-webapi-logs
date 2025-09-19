@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace GhostUnicorns\WebapiLogs\Model;
 
 use Exception;
-use GhostUnicorns\WebapiLogs\Model\Log\Logger;
+use Psr\Log\LoggerInterface as Logger;
 use GhostUnicorns\WebapiLogs\Model\ResourceModel\LogResourceModel;
 
 class LogHandle
