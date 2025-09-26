@@ -15,8 +15,6 @@ $viewModel = $block->getViewModel();
 $log = $viewModel->getLog();
 
 /** @var \Magento\Framework\Escaper $escaper */
-$escaper = $block->escapeHtml;
-$escaper = $block->getEscaper();
 ?>
 
 <h1>Log id: <?= $escaper->escapeHtml((string)$log->getData('log_id')) ?></h1>
