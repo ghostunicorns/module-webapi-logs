@@ -9,12 +9,12 @@
     <table name="webapi_logs" resource="default" engine="innodb" comment="Transporter Activity Table">
         <column xsi:type="int" name="log_id" padding="10" unsigned="true" nullable="false" identity="true"/>
         <column xsi:type="varchar" name="requestor_ip" nullable="false"/>
-        <column xsi:type="blob" name="request_url" nullable="false"/>
-        <column xsi:type="blob" name="request_headers" nullable="false"/>
+        <column xsi:type="mediumblob" name="request_url" nullable="false"/>
+        <column xsi:type="mediumblob" name="request_headers" nullable="false"/>
         <column xsi:type="varchar" name="request_method" nullable="false"/>
-        <column xsi:type="blob" name="request_body" nullable="false"/>
+        <column xsi:type="mediumblob" name="request_body" nullable="false"/>
         <column xsi:type="varchar" name="response_code" nullable="false"/>
-        <column xsi:type="blob" name="response_body" nullable="false"/>
+        <column xsi:type="mediumblob" name="response_body" nullable="false"/>
         <column xsi:type="timestamp" name="request_datetime" nullable="true" comment="Request datetime"/>
         <column xsi:type="timestamp" name="response_datetime" nullable="true" comment="Response datetime"/>
         <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Row Creation Time"/>
