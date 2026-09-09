@@ -44,10 +44,13 @@ class CleanCommand extends Command
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
+     * @return int
      * @throws \Exception
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->clean->execute();
+
+        return Command::SUCCESS;
     }
 }
