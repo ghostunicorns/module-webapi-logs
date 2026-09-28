@@ -18,6 +18,11 @@ use Magento\Framework\View\Element\UiComponent\DataProvider\DataProviderInterfac
 class LogListingDataProvider implements DataProviderInterface
 {
     /**
+     * Columns backed by an index
+     */
+    private const SORTABLE_FIELDS = ['log_id', 'created_at'];
+
+    /**
      * Data Provider name
      *
      * @var string
@@ -188,12 +193,17 @@ class LogListingDataProvider implements DataProviderInterface
     /**
      * self::setOrder() alias
      *
+     * Only indexed columns are sortable: sorting on any other one makes the database read the whole table
+     *
      * @param string $field
      * @param string $direction
      * @return void
      */
     public function addOrder($field, $direction)
     {
+        if (!in_array($field, self::SORTABLE_FIELDS, true)) {
+            return;
+        }
         $this->searchCriteriaBuilder->addSortOrder($field, $direction);
     }
 

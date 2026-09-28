@@ -139,6 +139,7 @@
                     <item name="dataType" xsi:type="string">select</item>
                     <item name="editor" xsi:type="string">select</item>
                     <item name="source" xsi:type="string">response_code</item>
+                    <item name="sortable" xsi:type="boolean">false</item>
                     <item name="sortOrder" xsi:type="number">20</item>
                 </item>
             </argument>
@@ -154,6 +155,7 @@
                     <item name="dataType" xsi:type="string">select</item>
                     <item name="editor" xsi:type="string">select</item>
                     <item name="source" xsi:type="string">request_method</item>
+                    <item name="sortable" xsi:type="boolean">false</item>
                     <item name="sortOrder" xsi:type="number">30</item>
                 </item>
             </argument>
@@ -165,6 +167,7 @@
                     <item name="resizeDefaultWidth" xsi:type="string">200</item>
                     <item name="label" xsi:type="string" translate="true">Request Url</item>
                     <item name="source" xsi:type="string">request_url</item>
+                    <item name="sortable" xsi:type="boolean">false</item>
                     <item name="sortOrder" xsi:type="number">35</item>
                 </item>
             </argument>
@@ -180,6 +183,7 @@
                     <item name="resizeDefaultWidth" xsi:type="string">100</item>
                     <item name="editor" xsi:type="string">select</item>
                     <item name="source" xsi:type="string">requestor_ip</item>
+                    <item name="sortable" xsi:type="boolean">false</item>
                     <item name="sortOrder" xsi:type="number">30</item>
                 </item>
             </argument>
@@ -189,6 +193,7 @@
                 <item name="config" xsi:type="array">
                     <item name="filter" xsi:type="string">text</item>
                     <item name="label" xsi:type="string" translate="true">Error</item>
+                    <item name="sortable" xsi:type="boolean">false</item>
                     <item name="sortOrder" xsi:type="number">25</item>
                     <item name="resizeDefaultWidth" xsi:type="string">100</item>
                 </item>

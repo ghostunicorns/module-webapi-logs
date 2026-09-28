@@ -8,24 +8,23 @@ declare(strict_types=1);
 
 namespace GhostUnicorns\WebapiLogs\Model\Config\Source;
 
-use GhostUnicorns\WebapiLogs\Model\ResourceModel\Entity\LogCollection;
-use GhostUnicorns\WebapiLogs\Model\ResourceModel\Entity\LogCollectionFactory;
+use GhostUnicorns\WebapiLogs\Model\ResourceModel\RecentDistinctValues;
 use Magento\Framework\Data\OptionSourceInterface;
 
 class Methods implements OptionSourceInterface
 {
     /**
-     * @var LogCollectionFactory
+     * @var RecentDistinctValues
      */
-    private $logCollectionFactory;
+    private $recentDistinctValues;
 
     /**
-     * @param LogCollectionFactory $logCollectionFactory
+     * @param RecentDistinctValues $recentDistinctValues
      */
     public function __construct(
-        LogCollectionFactory $logCollectionFactory
+        RecentDistinctValues $recentDistinctValues
     ) {
-        $this->logCollectionFactory = $logCollectionFactory;
+        $this->recentDistinctValues = $recentDistinctValues;
     }
 
     /**
@@ -34,14 +33,10 @@ class Methods implements OptionSourceInterface
     public function toOptionArray(): array
     {
         $result = [];
-        /** @var LogCollection $logsCollection */
-        $logsCollection = $this->logCollectionFactory->create();
-        $logsCollection->addFieldToSelect('request_method');
-        $logsCollection->distinct(true);
-        foreach ($logsCollection as $logs) {
+        foreach ($this->recentDistinctValues->execute('request_method') as $method) {
             $result[] = [
-                'value' => $logs->getRequestMethod(),
-                'label' => $logs->getRequestMethod()
+                'value' => $method,
+                'label' => $method
             ];
         }
         return $result;

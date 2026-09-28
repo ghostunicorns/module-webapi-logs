@@ -10,7 +10,7 @@ namespace GhostUnicorns\WebapiLogs\Controller\Adminhtml\Reports;
 
 use Exception;
 use Psr\Log\LoggerInterface as Logger;
-use GhostUnicorns\WebapiLogs\Model\ResourceModel\Entity\LogCollectionFactory;
+use GhostUnicorns\WebapiLogs\Model\ResourceModel\LogResourceModel;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Action\HttpGetActionInterface as HttpGetActionInterface;
@@ -29,9 +29,14 @@ class Delete extends Action implements HttpGetActionInterface
     protected $resultPageFactory;
 
     /**
-     * @var LogCollectionFactory
+     * Seconds to wait for the table lock before giving up, so a long query on the table cannot queue the log writes
      */
-    private $logCollectionFactory;
+    private const LOCK_WAIT_TIMEOUT = 5;
+
+    /**
+     * @var LogResourceModel
+     */
+    private $logResourceModel;
 
     /**
      * @var Logger
@@ -41,18 +46,18 @@ class Delete extends Action implements HttpGetActionInterface
     /**
      * @param Context $context
      * @param PageFactory $resultPageFactory
-     * @param LogCollectionFactory $logCollectionFactory
+     * @param LogResourceModel $logResourceModel
      * @param Logger $logger
      */
     public function __construct(
         Context $context,
         PageFactory $resultPageFactory,
-        LogCollectionFactory $logCollectionFactory,
+        LogResourceModel $logResourceModel,
         Logger $logger
     ) {
         parent::__construct($context);
         $this->resultPageFactory = $resultPageFactory;
-        $this->logCollectionFactory = $logCollectionFactory;
+        $this->logResourceModel = $logResourceModel;
         $this->logger = $logger;
     }
 
@@ -62,10 +67,9 @@ class Delete extends Action implements HttpGetActionInterface
     public function execute()
     {
         try {
-            $logs = $this->logCollectionFactory->create();
-            foreach ($logs as $log) {
-                $log->delete();
-            }
+            $connection = $this->logResourceModel->getConnection();
+            $connection->query('SET SESSION lock_wait_timeout = ' . self::LOCK_WAIT_TIMEOUT);
+            $connection->truncateTable($this->logResourceModel->getMainTable());
         } catch (Exception $exception) {
             $this->logger->error(__('Cant delete webapi log because of error: %1', $exception->getMessage()));
         }

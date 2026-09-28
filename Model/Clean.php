@@ -11,11 +11,15 @@ namespace GhostUnicorns\WebapiLogs\Model;
 use DateTime;
 use Exception;
 use Psr\Log\LoggerInterface as Logger;
-use GhostUnicorns\WebapiLogs\Model\ResourceModel\Entity\LogCollectionFactory;
 use GhostUnicorns\WebapiLogs\Model\ResourceModel\LogResourceModel;
 
 class Clean
 {
+    /**
+     * Rows removed per statement: a small write set for the cluster, and no row loaded into PHP
+     */
+    private const BATCH_SIZE = 1000;
+
     /**
      * @var Config
      */
@@ -27,11 +31,6 @@ class Clean
     private $logger;
 
     /**
-     * @var LogCollectionFactory
-     */
-    private $logCollectionFactory;
-
-    /**
      * @var ResourceModel\LogResourceModel
      */
     private $logResourceModel;
@@ -39,18 +38,15 @@ class Clean
     /**
      * @param Config $config
      * @param Logger $logger
-     * @param LogCollectionFactory $logCollectionFactory
      * @param LogResourceModel $logResourceModel
      */
     public function __construct(
         Config $config,
         Logger $logger,
-        LogCollectionFactory $logCollectionFactory,
         LogResourceModel $logResourceModel
     ) {
         $this->config = $config;
         $this->logger = $logger;
-        $this->logCollectionFactory = $logCollectionFactory;
         $this->logResourceModel = $logResourceModel;
     }
 
@@ -66,25 +62,19 @@ class Clean
         $this->logger->info(__('Start webapi logs clean'));
         $hours = $this->config->getCleanOlderThanHours();
         $datetime = new DateTime('-' . $hours . ' hour');
-        $page = 1;
 
-        $collection = $this->logCollectionFactory->create();
-        $collection = $collection->addFieldToSelect(LogResourceModel::LOG_ID)
-                                 ->addFieldToFilter(LogResourceModel::CREATED_AT, ['lt' => $datetime])
-                                 ->setPageSize(1000);
-
-        $pageCount = $collection->getLastPageNumber();
-        $currentPage = 1;
+        $connection = $this->logResourceModel->getConnection();
+        $sql = sprintf(
+            'DELETE FROM %s WHERE %s < ? LIMIT %d',
+            $connection->quoteIdentifier($this->logResourceModel->getMainTable()),
+            $connection->quoteIdentifier(LogResourceModel::CREATED_AT),
+            self::BATCH_SIZE
+        );
         $tot = 0;
-        while ($currentPage <= $pageCount) {
-            $collection->setCurPage($currentPage);
-            foreach ($collection as $row) {
-                $this->logResourceModel->delete($row);
-                $tot++;
-            }
-            $collection->clear();
-            $currentPage++;
-        }
+        do {
+            $deleted = $connection->query($sql, [$datetime->format('Y-m-d H:i:s')])->rowCount();
+            $tot += $deleted;
+        } while ($deleted === self::BATCH_SIZE);
 
         $this->logger->info(__('End webapi logs clean. Deleted %1 elements.', $tot));
     }
